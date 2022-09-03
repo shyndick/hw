@@ -7,6 +7,8 @@ class Weather {
         this.data=[]
         this.name='';
         this.country='';
+        // this.lat='';
+        // this.lon='';
         this.weather=[]
         this.init()
 
@@ -42,23 +44,28 @@ class Weather {
         let sitiJson = sitiLoc.then(response => response.json()).then(json => {console.log(json)
             for(let i = 0; i < json.length; i++){
                 this.data.push(json[i])
-                console.log(this.data)
+                // console.log(this.data)
             }
+            console.log(this.data)
         })
 
         this.data.forEach(({name, lat, lon, country})=>{
             
             this.country=country;
             this.name=name;
-            
+            // this.lat=lat;
+            // this.lon=lon;
             this.sitiWeather(lat, lon)
         })
-        
+        // this.sitiWeather(this.lat, this.lon)
     }
 
     sitiWeather(lat, lon) {
             let weather = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=15be81ae52b1e89db50ef966fe4f2113`)
-            let weatherSiti = weather.then(response => response.json()).then(json=>this.weather.push(json))
+            let weatherSiti = weather.then(response => response.json())
+                                    .then(json => {console.log(json)
+                                        this.weather.push(json)
+                                    })
             this.addWeather(this.weather)
             console.log(this.weather)
         }
@@ -76,6 +83,7 @@ class Weather {
 
             
             this.sitiLocation(inputValue)
+            this.data=[]
             // this.siti().value=''
         })
     }
