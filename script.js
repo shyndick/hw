@@ -55,6 +55,10 @@ class Weather {
             this.name=name;
             // this.lat=lat;
             // this.lon=lon;
+
+            /*из за того что this.sitiWeather(lat, lon) нв ходиться в forEach добавляет все несколько раз,
+            по другом как то вообще не работает */
+
             this.sitiWeather(lat, lon)
         })
         // this.sitiWeather(this.lat, this.lon)
@@ -92,8 +96,12 @@ class Weather {
         const ul = document.querySelector('.weather_items');
         let li = '';
         console.log(arr)
+
+
         /*до сюда доходит только со второго клика */
         /*при добавлении не видит main:{temp}, visibility, wind:{deg, speed  */
+
+
         // arr.forEach(({main:{temp}, visibility, wind:{deg, speed}})=>{
 
         // })
