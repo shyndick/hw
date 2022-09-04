@@ -3,10 +3,9 @@
 
 class Weather {
     constructor() {
-        let arr
         this.data=[]
-        this.name='';
-        this.country='';
+        // this.name='';
+        // this.country='';
         // this.lat='';
         // this.lon='';
         this.weather=[]
@@ -15,18 +14,22 @@ class Weather {
     }
 
     init() {
-        const weatherApp = document.querySelector('.weather_app');
-        weatherApp.innerHTML = `<div class="up">
-                                    <div class="header">
-                                    <h2>Погода в вашем городе</h2>
+        const weatherApp = document.querySelector('.site');
+        weatherApp.innerHTML = `<div class="weather_app">    
+                                    <div class="up">
+                                        <div class="header">
+                                            <h2>Погода в вашем городе</h2>
+                                        </div>
+                                        <div class="inputs">
+                                            <input class="input"type="text" value="Brest">
+                                        </div>
+                                        <div class="button">
+                                            <button class="btn">Найти</button>
+                                        </div>
                                     </div>
-                                    <div class="inputs">
-                                    <input class="input"type="text" value="Brest">
+                                    <div class="down">
+                                        <ul class='weather_items'></ul>
                                     </div>
-                                    <button class="btn">Найти</button>
-                                </div>
-                                <div class="down">
-                                    <ul class='weather_items'></ul>
                                 </div>  
                                 `
         this.siti()
@@ -50,10 +53,10 @@ class Weather {
             //console.log(this.data)
         
 
-        this.data.forEach(({name, lat, lon, country})=>{
+        this.data.forEach(({lat, lon})=>{
             
-            this.country=country;
-            this.name=name;
+            // this.country=country;
+            // this.name=name;
             // this.lat=lat;
             // this.lon=lon;
 
@@ -70,9 +73,10 @@ class Weather {
             let weatherSiti = weather.then(response => response.json())
                                     .then(json => {console.log(json)
                                         this.weather.push(json)
+                                        this.addWeather(this.weather)
                                     })
-            this.addWeather(this.weather)
-            console.log(this.weather)
+            
+            
         }
 
     siti() {
@@ -81,6 +85,7 @@ class Weather {
     }
 
     clickBtn() {
+        
         const btn = document.querySelector('.btn')
         btn.addEventListener('click', () =>{
             let inputValue = this.siti().value
@@ -104,20 +109,20 @@ class Weather {
         и создается массив только с первым городом, а не с несколькими*/
 
 
-        // arr.forEach(({main:{temp}, visibility, wind:{deg, speed}})=>{
+        arr.forEach(({main:{temp}, name, sys:{country}, visibility, wind:{deg, speed}})=>{
+            li += `<li class="content">
+                                        <p>Город: ${name}</p>
+                                        <p>Страна: ${country}</p>
+                                        <p>Скорость ветра: ${speed}</p>
+                                        <p>Направление ветера: ${deg}</p>
+                                        <p>Температура: ${Math.floor(temp-273)}</p>
+                                        <p>Видимость: ${visibility}</p>
+                                        
+                                    </li>`
+                                    ul.innerHTML = li;
+        }) 
 
-        // })
-
-        // li += `<li class="content">
-        //                     <p>Город: ${this.name}</p>
-        //                     <p>Страна: ${this.country}</p>
-        //                     <p>Скорость ветра: ${speed}</p>
-        //                     <p>Направление ветера: ${deg}</p>
-        //                     <p>Температура: ${temp}</p>
-        //                     <p>Видимость: ${visibility}</p>
-                            
-        //                 </li>`
-        //                 ul.innerHTML = li;
+        
     }
 
 }
