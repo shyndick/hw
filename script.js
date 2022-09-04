@@ -4,10 +4,6 @@
 class Weather {
     constructor() {
         this.data=[]
-        // this.name='';
-        // this.country='';
-        // this.lat='';
-        // this.lon='';
         this.weather=[]
         this.init()
 
@@ -36,42 +32,26 @@ class Weather {
         this.clickBtn()
     }
 
-    sitiLocation(siti) {/*определяется долгота и широта города */
+    sitiLocation(siti) {
         let sitiLoc = fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${siti}&limit=5&appid=15be81ae52b1e89db50ef966fe4f2113`);
-
-
-        // let sitiJson = sitiLoc.then(response => response.json()).then(json => json)
-        // console.log(sitiJson)
-        
-                                   //вроде разобрался                                 /*не понимаю как правильно вывести этот массив с обьектами *///
         let sitiJson = sitiLoc.then(response => response.json()).then(json => {console.log(json)
 
             for(let i = 0; i < json.length; i++){
                 this.data.push(json[i])
-                // console.log(this.data)
             }
-            //console.log(this.data)
         
 
         this.data.forEach(({lat, lon})=>{
-            
-            // this.country=country;
-            // this.name=name;
-            // this.lat=lat;
-            // this.lon=lon;
-
-                                                                            /*из за того что this.sitiWeather(lat, lon) нв ходиться в forEach добавляет все несколько раз,
-                                                                            по другом как то вообще не работает */
 
             this.sitiWeather(lat, lon)
         })
-    })// this.sitiWeather(this.lat, this.lon)
+    })
     }
 
     sitiWeather(lat, lon) {
-            let weather = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=15be81ae52b1e89db50ef966fe4f2113`)
+            let weather = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=ru&appid=15be81ae52b1e89db50ef966fe4f2113&units=metric`)
             let weatherSiti = weather.then(response => response.json())
-                                    .then(json => {console.log(json)
+                                    .then(json => {
                                         this.weather.push(json)
                                         this.addWeather(this.weather)
                                     })
@@ -88,6 +68,8 @@ class Weather {
         
         const btn = document.querySelector('.btn')
         btn.addEventListener('click', () =>{
+            this.remove()
+
             let inputValue = this.siti().value
             
 
@@ -98,28 +80,28 @@ class Weather {
         })
     }
 
+    remove() {
+        const ul=document.querySelector('.weather_items');
+        ul.innerHTML='';
+        this.weather=[]
+    }
+
     addWeather(arr) {
         const ul = document.querySelector('.weather_items');
         let li = '';
-        console.log(arr)
-
-
-        
-        /*при добавлении не видит main:{temp}, visibility, wind:{deg, speed  
-        и создается массив только с первым городом, а не с несколькими*/
-
-
+        console.log(arr)   
         arr.forEach(({main:{temp}, name, sys:{country}, visibility, wind:{deg, speed}})=>{
             li += `<li class="content">
                                         <p>Город: ${name}</p>
                                         <p>Страна: ${country}</p>
-                                        <p>Скорость ветра: ${speed}</p>
-                                        <p>Направление ветера: ${deg}</p>
-                                        <p>Температура: ${Math.floor(temp-273)}</p>
-                                        <p>Видимость: ${visibility}</p>
+                                        <p>Скорость ветра: ${speed} м/с</p>
+                                        <p>Направление ветера: ${deg}&deg;</p>
+                                        <p>Температура: ${Math.floor(temp)}&#8451;</p>
+                                        <p>Видимость: ${visibility} м.</p>
                                         
                                     </li>`
-                                    ul.innerHTML = li;
+                                    ul.innerHTML = li;  
+                                                    
         }) 
 
         
