@@ -40,14 +40,15 @@ class Weather {
         // let sitiJson = sitiLoc.then(response => response.json()).then(json => json)
         // console.log(sitiJson)
         
-    /*не понимаю как правильно вывести этот массив с обьектами */
+                                   //вроде разобрался                                 /*не понимаю как правильно вывести этот массив с обьектами *///
         let sitiJson = sitiLoc.then(response => response.json()).then(json => {console.log(json)
+
             for(let i = 0; i < json.length; i++){
                 this.data.push(json[i])
                 // console.log(this.data)
             }
-            console.log(this.data)
-        })
+            //console.log(this.data)
+        
 
         this.data.forEach(({name, lat, lon, country})=>{
             
@@ -56,12 +57,12 @@ class Weather {
             // this.lat=lat;
             // this.lon=lon;
 
-            /*из за того что this.sitiWeather(lat, lon) нв ходиться в forEach добавляет все несколько раз,
-            по другом как то вообще не работает */
+                                                                            /*из за того что this.sitiWeather(lat, lon) нв ходиться в forEach добавляет все несколько раз,
+                                                                            по другом как то вообще не работает */
 
             this.sitiWeather(lat, lon)
         })
-        // this.sitiWeather(this.lat, this.lon)
+    })// this.sitiWeather(this.lat, this.lon)
     }
 
     sitiWeather(lat, lon) {
@@ -88,7 +89,7 @@ class Weather {
             
             this.sitiLocation(inputValue)
             this.data=[]
-            // this.siti().value=''
+            this.siti().value=''
         })
     }
 
@@ -98,8 +99,9 @@ class Weather {
         console.log(arr)
 
 
-        /*до сюда доходит только со второго клика */
-        /*при добавлении не видит main:{temp}, visibility, wind:{deg, speed  */
+        
+        /*при добавлении не видит main:{temp}, visibility, wind:{deg, speed  
+        и создается массив только с первым городом, а не с несколькими*/
 
 
         // arr.forEach(({main:{temp}, visibility, wind:{deg, speed}})=>{
